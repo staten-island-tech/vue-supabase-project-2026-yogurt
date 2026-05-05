@@ -16,11 +16,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1 class="text-amber-600">You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <RouterView></RouterView>
+  
 </template>
 
 <style scoped></style>
