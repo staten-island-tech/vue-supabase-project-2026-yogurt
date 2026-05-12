@@ -17,16 +17,26 @@ const user = ref("")
 const key = ref("")
 const name = ref("")
 async function login(){
-    console.log(user.value, key.value)
+    console.log(name.value, user.value, key.value)
     
     let { data, error } = await supabase
     .from('profiles')
     .select('id,name')
     console.log(data, error)
-  
+
+    if(user.value !== "" || user.value !== ""){
+        await supabase
+        .from('profiles')
+        .insert([
+        { name: `${name.value}`, email: `${user.value}` },
+        ])
+        .select()
+    }else{
+        console.log("Enter email/name")
+    }   
 }
 
-console.log(supabase)
+//console.log(supabase)
 </script>
 
 <style scoped>
