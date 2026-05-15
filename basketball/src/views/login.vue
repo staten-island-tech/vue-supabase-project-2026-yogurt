@@ -13,7 +13,7 @@
 import { supabase } from '@/supabase.js';
 import { ref } from 'vue'
 
-const user = ref("")
+const user = ref("") 
 const key = ref("")
 const name = ref("")
 async function login(){
