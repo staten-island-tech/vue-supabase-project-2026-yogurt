@@ -17,25 +17,6 @@ import { ref } from 'vue'
 const user = ref("") 
 const key = ref("")
 const name = ref("")
-/* async function login(){
-    console.log(name.value, user.value, key.value)
-    
-    let { data, error } = await supabase
-    .from('profiles')
-    .select('id,name')
-    console.log(data, error)
-
-    if(user.value !== "" || user.value !== ""){
-        await supabase
-        .from('profiles')
-        .insert([
-        { name: `${name.value}`, email: `${user.value}` },
-        ])
-        .select()
-    }else{
-        console.log("Enter email/name")
-    }   
-} */
 async function upsertProfile() {
   const { data: userData, error: userError } = await supabase.auth.getUser()
   if (userError) throw userError
@@ -44,11 +25,11 @@ async function upsertProfile() {
     .from('profiles')
     .upsert(
       {
-        id: userData.user.id,          // MUST match RLS: id = auth.uid()
+        id: userData.user.id,
         email: userData.user.email,
         name: name.value || null,
       },
-      { onConflict: 'id' }           // id is your PK
+      { onConflict: 'id' }
     )
 
   if (error) throw error
@@ -90,3 +71,4 @@ async function signUp() {
 <style scoped>
 
 </style>
+// password = "yogurt123"
