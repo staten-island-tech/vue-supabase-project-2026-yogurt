@@ -1,10 +1,10 @@
 <template>
-    <div class="bg-amber-500 w-50 h-100 flex flex-wrap justify-center items-center">
+    <div class="bg-amber-500 w-480 h-100 flex flex-wrap justify-center items-center">
         Login
         <input v-model="name" placeholder="Please type your name" class="w-50"></input>
         <input v-model="user" placeholder="Please type your email" class="w-50"></input>
         Password
-        <input v-model="key" placeholder="Please type your password" class="w-50"></input>
+        <input type="password" v-model="key" placeholder="Please type your password" class="w-50"></input>
         <button @click="login" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Login</button>
         <button @click="signUp" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Sign Up</button>
     </div>
