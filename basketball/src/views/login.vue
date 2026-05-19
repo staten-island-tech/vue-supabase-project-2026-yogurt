@@ -62,8 +62,6 @@ async function signUp() {
     alert(error.message)
     return
   }
-
-  alert("Check your email to confirm, if confirmation is enabled.")
 }
 //console.log(supabase)
 </script>
