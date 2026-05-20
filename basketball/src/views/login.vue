@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-amber-500 w-480 h-100 flex flex-wrap justify-center items-center">
+    <div class="bg-blue-600 h-screen flex flex-wrap justify-center items-center">
         Login
         <input v-model="name" placeholder="Please type your name" class="w-50"></input>
         <input v-model="user" placeholder="Please type your email" class="w-50"></input>
