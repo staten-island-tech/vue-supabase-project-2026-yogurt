@@ -1,12 +1,15 @@
 <template>
-    <div class="bg-blue-600 h-screen flex flex-wrap justify-center items-center">
-        Login
-        <input v-model="name" placeholder="Please type your name" class="w-50"></input>
-        <input v-model="user" placeholder="Please type your email" class="w-50"></input>
-        Password
-        <input type="password" v-model="key" placeholder="Please type your password" class="w-50"></input>
+    <div class="bg-green-200 h-screen flex justify-center px-4 items-center">
+      <div class="w-350 bg-white p-25 rounded shadow-md">
+        <p class="font-bold text-xl">Username:</p>
+        <input v-model="name" placeholder="  Type your Username" class="w-80 h-10 "></input>
+        <p class="font-bold text-xl">Email:</p>
+        <input v-model="user" placeholder="  Type your email" class="w-80 h-10"></input>
+        <p class="font-bold text-xl">Password:</p>
+        <input type="password" v-model="key" placeholder="  Type your password" class="w-80 h-10"></input>
         <button @click="login" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Login</button>
         <button @click="signUp" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Sign Up</button>
+      </div>
     </div>
 </template>
 
