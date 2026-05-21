@@ -1,14 +1,22 @@
 <template>
-    <div class="bg-green-200 h-screen flex justify-center px-4 items-center">
-      <div class="w-350 bg-white p-25 rounded shadow-md">
-        <p class="font-bold text-xl">Username:</p>
-        <input v-model="name" placeholder="  Type your Username" class="w-80 h-10 "></input>
-        <p class="font-bold text-xl">Email:</p>
-        <input v-model="user" placeholder="  Type your email" class="w-80 h-10"></input>
-        <p class="font-bold text-xl">Password:</p>
-        <input type="password" v-model="key" placeholder="  Type your password" class="w-80 h-10"></input>
-        <button @click="login" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Login</button>
-        <button @click="signUp" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Sign Up</button>
+    <div class="bg-sky-100 h-screen flex justify-center px-4 items-center">
+      <div class="w-250 h-175 bg-sky-200 p-15 rounded-4xl shadow-xl ">
+        <p class="text-5xl mb-15">Welcome back</p>
+        <p class="text-2xl font-bold text-slate-900 mb-3">Username</p>
+        <input v-model="name" placeholder="  Type your Username" class="w-117 rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"></input>
+        <p class="text-2xl font-bold text-slate-900 mb-3">Email Address</p>
+        <input v-model="user" placeholder="  Type your email" class="w-117 rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"></input>
+        <p class="text-2xl font-bold text-slate-900 mb-3">Password</p>
+        <input type="password" v-model="key" placeholder="  Type your password" class="w-117 rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-10"></input>
+        <p></p>
+        <button @click="login" class="w-117 h-10 bg-red-400 hover:cursor-pointer mb-10 rounded-4xl">Login</button>
+        <p></p>
+        <button @click="signUp" class="w-117 h-10 bg-red-400 hover:cursor-pointer rounded-4xl">Sign Up</button>
+        <img
+    src="/image.jpg"
+    alt="My Picture"
+    class="w-full h-auto rounded-lg shadow-md"
+  />
       </div>
     </div>
 </template>
