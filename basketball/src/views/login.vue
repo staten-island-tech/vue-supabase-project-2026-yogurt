@@ -77,7 +77,5 @@ async function signUp() {
 //console.log(supabase)
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 // password = "yogurt123"
