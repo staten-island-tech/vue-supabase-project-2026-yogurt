@@ -5,7 +5,7 @@
         <input v-model="user" placeholder="Please type your email" class="w-50"></input>
         Password
         <input type="password" v-model="key" placeholder="Please type your password" class="w-50"></input>
-        <button @click="login" class="w-30 h-10 bg-red-400 hover:cursor-pointer m-0">Login</button>
+        <button @click="login" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Login</button>
         <button @click="signUp" class="w-30 h-10 bg-red-400 hover:cursor-pointer">Sign Up</button>
     </div>
 </template>
@@ -66,5 +66,7 @@ async function signUp() {
 //console.log(supabase)
 </script>
 
-<style scoped></style>
+<style scoped>
+
+</style>
 // password = "yogurt123"
