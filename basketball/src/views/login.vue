@@ -15,7 +15,7 @@
         <img
     src="/image.jpg"
     alt="My Picture"
-    class="w-full h-auto rounded-lg shadow-md"
+    class="w-50 h-50 rounded-lg shadow-md "
   />
       </div>
     </div>
