@@ -14,11 +14,9 @@
           <p></p>
           <button @click="signUp" class="w-117 h-10 bg-red-400 hover:cursor-pointer rounded-4xl">Sign Up</button>
         </div>
-
         <div class="w-1/2 h-full">
           <img src="/image.jpg" alt="My Picture" class="ml-10  w-full h-210 object-cover"/>
         </div>
-
       </div>
     </div>
 </template>
@@ -76,7 +74,7 @@ async function signUp() {
     return
   }
 }
-//console.log(supabase)
+
 </script>
 
 <style scoped>
