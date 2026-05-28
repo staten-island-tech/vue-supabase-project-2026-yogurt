@@ -54,6 +54,9 @@ async function login() {
   if (error) {
     alert(error.message)
     return
+  }else{
+    console.log("User logged in successfully")
+    window.location.href = '/menu'
   }
 
   await upsertProfile()
@@ -72,12 +75,14 @@ async function signUp() {
   if (error) {
     alert(error.message)
     return
+  }else{
+    console.log("User signed up successfully")
+    window.location.href = '/menu'
   }
 }
-
 </script>
 
 <style scoped>
 
 </style>
-// password = "yogurt123"
+<!-- password is yogurt123 -->
