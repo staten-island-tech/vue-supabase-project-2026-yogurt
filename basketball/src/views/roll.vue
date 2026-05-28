@@ -8,9 +8,10 @@
 <script setup>
 import { ref } from 'vue'
 import card from '@/components/card.vue'
+import { getData, getPlayer } from '@/state';
 
 function roll(){
-    
+    console.log(getPlayer("lebron-james"))
 }
 </script>
 
