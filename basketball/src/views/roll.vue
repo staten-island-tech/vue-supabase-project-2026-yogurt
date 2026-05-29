@@ -11,7 +11,8 @@ import card from '@/components/card.vue'
 import { getData, getPlayer } from '@/state';
 
 function roll(){
-    console.log(getPlayer("lebron-james"))
+    console.log(getData())
+    //console.log(getPlayer("lebron-james").data)
 }
 </script>
 
