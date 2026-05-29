@@ -57,6 +57,7 @@ async function login() {
   }else{
     console.log("User logged in successfully")
     window.location.href = '/menu'
+    alert("Login successful")
   }
 
   await upsertProfile()
@@ -78,6 +79,7 @@ async function signUp() {
   }else{
     console.log("User signed up successfully")
     window.location.href = '/menu'
+    alert("Sign up successful")
   }
 }
 </script>
