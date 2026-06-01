@@ -1,11 +1,20 @@
 <template>
-  <div class="bg-teal-200 h-screen">
-    <div class="w-full max-w-md p-25 flex-col flex bg-red-500 ">
-      <RouterLink class="bg-red-300 rounded-2xl border-2 w-50 p-5">Play</RouterLink>
-      <RouterLink to="/team" class="w-117 h-10 bg-red-400 hover:cursor-pointer rounded-4xl"
+  <div class="bg-sky-300 h-screen flex justify-center px-4 items-center">
+    <div
+      class="w-250 h-175 bg-sky-200 p-15 rounded-4xl shadow-xl flex overflow-hidden gap-2 w-full"
+    >
+      <RouterLink
+        class="bg-red-300 rounded-2xl border-2 w-400 h-20 hover:cursor-pointer rounded-4xl text-center text-5xl"
+        >Play</RouterLink
+      >
+      <RouterLink
+        to="/team"
+        class="bg-red-300 rounded-2xl border-2 w-400 h-20 hover:cursor-pointer rounded-4xl text-center text-5xl"
         >Choose Team</RouterLink
       >
-      <RouterLink to="/roll" class="w-117 h-10 bg-red-400 hover:cursor-pointer rounded-4xl"
+      <RouterLink
+        to="/roll"
+        class="bg-red-300 rounded-2xl border-2 w-400 h-20 hover:cursor-pointer rounded-4xl text-center text-5xl"
         >Roll Players</RouterLink
       >
     </div>
