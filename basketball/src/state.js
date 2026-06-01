@@ -2,11 +2,14 @@ import { ref } from "vue"
 const data = ref([])
 
 export async function getData() {
-    if(fetched){
-        return data.value
-    }
     try {
-        const response = await fetch('https://api.nba2kapi.com/api/players')
+        const response = await fetch('https://api.nba2kapi.com/api/players?limit=10',
+            {
+                headers: {
+                    'API-Key': '2k_ebvflg864vucenjc63slbau4597m8fhs'
+                }
+            }
+        )
         data.value = await response.json()
     }catch (error) {
         console.log(error)
@@ -20,7 +23,7 @@ export async function getPlayer(slug) {
             `https://api.nba2kapi.com/api/players/slug/:${slug}`,
             {
                 headers: {
-                    'X-API-Key': '2k_7azburbns6ka0mo63krjl8stmt6e3qod'
+                    'API-Key': '2k_ebvflg864vucenjc63slbau4597m8fhs'
                 }
             }
         );
