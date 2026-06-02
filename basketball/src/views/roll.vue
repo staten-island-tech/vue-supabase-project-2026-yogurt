@@ -15,9 +15,10 @@ import { ref } from 'vue'
 import card from '@/components/card.vue'
 import { getPlayer } from '@/state'
 
-async function roll() {
-  console.log(await getPlayer(115))
-  //console.log(getPlayer("lebron-james").data)
+async function roll(){
+    console.log(await getPlayer(115))
+    console.log(await getData())
+    //console.log(getPlayer("lebron-james").data)
 }
 console.log(data) // array of players
 </script>
