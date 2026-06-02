@@ -10,8 +10,8 @@ import { ref } from 'vue'
 import card from '@/components/card.vue'
 import { getData, getPlayer } from '@/state';
 
-function roll(){
-    console.log(getData())
+async function roll(){
+    console.log(await getPlayer(115))
     //console.log(getPlayer("lebron-james").data)
 }
 </script>
