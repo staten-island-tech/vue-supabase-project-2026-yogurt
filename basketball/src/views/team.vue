@@ -75,6 +75,7 @@
       <option value="">team 2</option>
       <option value="">team 3</option>
     </select>
+    
 </template>
 
 <script setup>
