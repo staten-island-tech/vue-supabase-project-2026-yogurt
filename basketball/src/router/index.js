@@ -33,4 +33,16 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach(async (to, from, next) => {
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (to.meta.requiresAuth && !session) {
+    next({ name: 'login' })
+  } else if (to.name === 'login' && session) {
+    next({ name: 'menu' })
+  } else {
+    next()
+  }
+})
+
 export default router
