@@ -10,22 +10,25 @@ const router = createRouter({
     {
       path: '/',
       name: 'login',
-      component: login
+      component: login,
     },
     {
       path: '/menu',
       name: 'menu',
-      component: menu
+      component: menu,
+      meta: { requiresAuth: true }
     },
     {
       path: '/team',
       name: 'team',
-      component: team
+      component: team,
+      meta: { requiresAuth: true }
     },
     {
       path: '/roll',
       name: 'roll',
-      component: roll
+      component: roll,
+      meta: { requiresAuth: true }
     },
   ],
 })
