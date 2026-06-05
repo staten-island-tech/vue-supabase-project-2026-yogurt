@@ -7,18 +7,17 @@
       :overall="99"
     ></card>
   </div>
-  <button @click="roll">Roll</button>
+  <button @click="randomNumber">Roll</button>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import card from '@/components/card.vue'
-import { getData, getPlayer } from '@/state'
+import { getPlayer } from '@/state'
 
-async function roll() {
-  console.log(await getPlayer(115))
-  console.log(await getData())
-  //console.log(getPlayer("lebron-james").data)
+async function randomNumber() {
+  const id = Math.floor(Math.random() * 3000)
+  console.log(await getPlayer(id))
 }
 </script>
 
