@@ -23,7 +23,9 @@
   
 <script setup>
 import { supabase } from '@/supabase.js';
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
+const router = useRouter()
 
 const user = ref("") 
 const key = ref("")
@@ -56,7 +58,7 @@ async function login() {
     return
   }else{
     console.log("User logged in successfully")
-    router.push({ name: menu })
+    router.push({ name: 'menu' })
   }
 
   await upsertProfile()
