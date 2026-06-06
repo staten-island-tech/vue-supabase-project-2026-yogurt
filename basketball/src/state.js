@@ -15,16 +15,30 @@ export const usePlayerstore = defineStore('players', {
     }
   },
   actions: {
-    async getPlayer(id) {
-      try {
-        const response = await fetch(`https://api.balldontlie.io/nba/v1/players/${id}`, {
-          headers: { Authorization: import.meta.env.VITE_NBA_API_KEY },
-      })
-      data.value = await response.json()
-      return data.value.data
-      } catch (error) {
+    async call(endpoint){
+      try{
+        const response = await fetch('/.netlify/functions/nba-proxy', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ endpoint })
+        })
+        data.value = await response.json()
+        return data.value
+      }catch(error){
         console.log(error)
       }
+    },
+    async getPlayer(id) {
+      return await this.call("players")
+      // try {
+      //   const response = await fetch(`https://api.balldontlie.io/nba/v1/players/${id}`, {
+      //     headers: { Authorization: import.meta.env.VITE_NBA_API_KEY },
+      //   })
+      //   data.value = await response.json()
+      //   return data.value.data
+      // } catch (error) {
+      //   console.log(error)
+      // }
     },
     addPlayer(id, team){
       if(team && !this.hasPlayer(id)){
