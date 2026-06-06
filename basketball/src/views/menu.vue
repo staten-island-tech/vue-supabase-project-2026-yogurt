@@ -16,10 +16,21 @@
         class="bg-red-400 hover:bg-red-500 text-white text-3xl font-bold py-6 rounded-2xl text-center transition duration-200 shadow-lg"
         >Roll Players</RouterLink
       >
+      <button @click="logout"
+        class="bg-red-400 hover:bg-red-500 text-white text-3xl font-bold py-6 rounded-2xl text-center transition duration-200 shadow-lg"
+        >Logout</button>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import router from '@/router';
+import { supabase } from '@/supabase';
+
+async function logout(){
+  await supabase.auth.signOut()
+  router.push({ name: login })
+}
+</script>
 
 <style scoped></style>

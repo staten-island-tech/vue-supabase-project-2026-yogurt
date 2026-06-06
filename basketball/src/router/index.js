@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { supabase } from '@/supabase.js';
 import login from '@/views/login.vue'
 import menu from '@/views/menu.vue'
 import team from '@/views/team.vue'
@@ -33,15 +34,13 @@ const router = createRouter({
   ],
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to) => {
   const { data: { session } } = await supabase.auth.getSession()
 
   if (to.meta.requiresAuth && !session) {
-    next({ name: 'login' })
+    return { name: 'login' }
   } else if (to.name === 'login' && session) {
-    next({ name: 'menu' })
-  } else {
-    next()
+    return { name: 'menu' }
   }
 })
 
