@@ -29,7 +29,7 @@ import { supabase } from '@/supabase';
 import { usePlayerstore } from '@/state'
 const store = usePlayerstore()
 
-store.getAllPlayers()
+
 
 async function logout(){
   await supabase.auth.signOut()

@@ -1,6 +1,4 @@
-import { ref } from 'vue'
 import { defineStore } from 'pinia'
-const data = ref([])
 
 export const usePlayerstore = defineStore('players', {
   state: () => ({
@@ -32,30 +30,42 @@ export const usePlayerstore = defineStore('players', {
         console.log(error)
       }
     },
-    async getPlayer(slug) {
-      return await this.call('players')
-      return await this.call(`players/slug/${slug}`)
+    async getPlayer(slug, pos) {
+      if(slug && !pos){
+        return await this.call(`players/slug/${slug}`)
+      }else if(!slug && pos){
+        return this.allPlayers[pos]
+      }
     },
     async getAllPlayers() {
-      if (this.allPlayers.length > 0) return
+      let cached = localStorage.getItem('allPlayers')
+
+      if (this.allPlayers.length > 0 || cached){
+        this.allPlayers = JSON.parse(cached)
+        return
+      }
       let cursor = null
       let hasMore = true
       let endpoint = ''
 
-      while (hasMore) {
-        if (cursor) {
-          endpoint = `players?cursor=${cursor}`
-        } else {
-          endpoint = 'players'
-        }
-        const data = await this.call(endpoint)
+      try{
+        while (hasMore) {
+          if (cursor) {
+            endpoint = `players?cursor=${cursor}`
+          } else {
+            endpoint = 'players'
+          }
+          const data = await this.call(endpoint)
 
-        this.allPlayers = [...this.allPlayers, ...data.data]
-        hasMore = data.meta.pagination.hasMore
-        cursor = data.meta.pagination.nextCursor
+          this.allPlayers = [...this.allPlayers, ...data.data]
+          hasMore = data.meta.pagination.hasMore
+          cursor = data.meta.pagination.nextCursor
+        }
+        console.log('total fetched:', this.allPlayers.length)
+        localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
+      }catch(error){
+        console.log('error: ' + error)
       }
-      this.allPlayers = allPlayers
-      console.log('total fetched:', this.allPlayers.length)
     },
     addPlayer(id, team) {
       if (team && !this.hasPlayer(id)) {

@@ -3,25 +3,31 @@
     <card v-if="current"
       class="w-50 h-100 bg-gray-200 rounded-2xl mr-10"
       :name="`${current.name}`"
-      :img="'https://a.espncdn.com/combiner/i?img=/i/headshots/nba/players/full/1966.png&w=350&h=254'"
-      :overall="99"
+      :img="`${current.playerImage}`"
+      :overall="current.overall"
     ></card>
   </div>
-  <button @click="randomNumber">Roll</button>
+  <button v-if="store.allPlayerCount != 643">Loading...</button>
+  <button v-if="store.allPlayerCount === 643" @click="randomNumber">Roll</button>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import card from '@/components/card.vue'
 import { usePlayerstore } from '@/state'
 const store = usePlayerstore()
 
+onMounted(async ()=>{
+  await store.getAllPlayers()
+})
 const current = ref()
+
 async function randomNumber() {
-  console.log(store.allPlayerCount)
-  const id = Math.floor(Math.random() * store.allPlayerCount)
-  console.log(await store.getPlayer(id))
-  current.value = await store.getPlayer(id)
+  if(store.allPlayerCount === 643){
+    const id = Math.floor(Math.random() * store.allPlayerCount)
+    current.value = await store.getPlayer(null, id)
+    console.log(current.value)
+  }
 }
 </script>
 
