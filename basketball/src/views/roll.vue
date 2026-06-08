@@ -18,8 +18,9 @@ const store = usePlayerstore()
 
 const current = ref()
 async function randomNumber() {
+  console.log(store.allPlayerCount)
   const id = Math.floor(Math.random() * store.allPlayerCount)
-  console.log(id, await store.getPlayer(id))
+  console.log(await store.getPlayer(id))
   current.value = await store.getPlayer(id)
 }
 </script>

@@ -26,8 +26,8 @@ export const usePlayerstore = defineStore('players', {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ endpoint })
         })
-        data.value = await response.json()
-        return data.value.data
+        const json = await response.json()
+        return json
       }catch(error){
         console.log(error)
       }
@@ -40,6 +40,7 @@ export const usePlayerstore = defineStore('players', {
       if (this.allPlayers.length > 0) return
       let cursor = null
       let hasMore = true
+      let endpoint = ''
 
       while (hasMore) {
         if(cursor){
@@ -53,8 +54,8 @@ export const usePlayerstore = defineStore('players', {
         hasMore = data.meta.pagination.hasMore
         cursor = data.meta.pagination.nextCursor
       }
-
       this.allPlayers = allPlayers
+      console.log('total fetched:', this.allPlayers.length)
     },
     addPlayer(id, team){
       if(team && !this.hasPlayer(id)){
