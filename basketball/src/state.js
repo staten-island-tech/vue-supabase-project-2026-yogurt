@@ -16,19 +16,19 @@ export const usePlayerstore = defineStore('players', {
     },
     allPlayerCount: (state) => {
       return state.allPlayers.length
-    }
+    },
   },
   actions: {
-    async call(endpoint){
-      try{
+    async call(endpoint) {
+      try {
         const response = await fetch('/.netlify/functions/nba-proxy', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ endpoint })
+          body: JSON.stringify({ endpoint }),
         })
         data.value = await response.json()
         return data.value.data
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     },
@@ -42,13 +42,13 @@ export const usePlayerstore = defineStore('players', {
       let hasMore = true
 
       while (hasMore) {
-        if(cursor){
+        if (cursor) {
           endpoint = `players?cursor=${cursor}`
-        }else{
+        } else {
           endpoint = 'players'
         }
         const data = await this.call(endpoint)
-        
+
         this.allPlayers = [...this.allPlayers, ...data.data]
         hasMore = data.meta.pagination.hasMore
         cursor = data.meta.pagination.nextCursor
@@ -56,35 +56,36 @@ export const usePlayerstore = defineStore('players', {
 
       this.allPlayers = allPlayers
     },
-    addPlayer(id, team){
-      if(team && !this.hasPlayer(id)){
-        try{
+    addPlayer(id, team) {
+      if (team && !this.hasPlayer(id)) {
+        try {
           this[team].push(id)
-        } catch(error){
+        } catch (error) {
           console.log(error)
         }
-      }else{
-        try{
+      } else {
+        try {
           this.playerIds.push(id)
-        } catch(error){
+        } catch (error) {
           console.log(error)
         }
       }
     },
     async saveInv() {
-    const { data: { user } } = await supabase.auth.getUser()
-    
-    const { error } = await supabase
-      const rows = this.playerSlugs.map((p) =>({
-        user_id: user.id,
-        player_slug: p,
-      }))
-      .from('user_players')
-      .upsert(rows)
-      
-    if (error) console.log(error)
-  },
-  }
-})
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
 
- 
+      const { error } = await supabase
+      const rows = this.playerSlugs
+        .map((p) => ({
+          user_id: user.id,
+          player_slug: p,
+        }))
+        .from('user_players')
+        .upsert(rows)
+
+      if (error) console.log(error)
+    },
+  },
+})
