@@ -3,14 +3,13 @@ import { defineStore } from 'pinia'
 export const usePlayerstore = defineStore('players', {
   state: () => ({
     allPlayers: [],
-    playerSlugs: [],
     team1: [],
     team2: [],
     team3: [],
   }),
   getters: {
-    hasPlayer: (state) => (slug) => {
-      return state.playerSlugs.includes(slug)
+    returnTeams: (state) =>{
+      return state.team1
     },
     allPlayerCount: (state) => {
       return state.allPlayers.length
@@ -67,36 +66,23 @@ export const usePlayerstore = defineStore('players', {
         console.log('error: ' + error)
       }
     },
-    addPlayer(id, team) {
-      if (team && !this.hasPlayer(id)) {
+    addPlayer(p, team) {
+      if (team && this[team].length < 5) {
         try {
-          this[team].push(id)
+          this[team].push(p)
         } catch (error) {
           console.log(error)
         }
-      } else {
-        try {
-          this.playerIds.push(id)
-        } catch (error) {
-          console.log(error)
-        }
+      }else{
+        console.log(Number.isInteger(this[team].length))
       }
     },
-    async saveInv() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-
-      const { error } = await supabase
-      const rows = this.playerSlugs
-        .map((p) => ({
-          user_id: user.id,
-          player_slug: p,
-        }))
-        .from('user_players')
-        .upsert(rows)
-
-      if (error) console.log(error)
-    },
+    hasPositon(pos, team){
+      if(pos.isArray()){
+        pos.forEach(p => {
+          console.log("yogurt")
+        });
+      }
+    }}, 
   },
-})
+)
