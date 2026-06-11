@@ -26,21 +26,21 @@ export const usePlayerstore = defineStore('players', {
         })
         const json = await response.json()
         return json
-      }catch(error){
+      } catch (error) {
         console.log(error)
       }
     },
     async getPlayer(slug, pos) {
-      if(slug && !pos){
+      if (slug && !pos) {
         return await this.call(`players/slug/${slug}`)
-      }else if(!slug && pos){
+      } else if (!slug && pos) {
         return this.allPlayers[pos]
       }
     },
     async getAllPlayers() {
       let cached = localStorage.getItem('allPlayers')
 
-      if (this.allPlayers.length > 0 || cached){
+      if (this.allPlayers.length > 0 || cached) {
         this.allPlayers = JSON.parse(cached)
         return
       }
@@ -48,7 +48,7 @@ export const usePlayerstore = defineStore('players', {
       let hasMore = true
       let endpoint = ''
 
-      try{
+      try {
         while (hasMore) {
           if (cursor) {
             endpoint = `players?cursor=${cursor}`
@@ -63,7 +63,7 @@ export const usePlayerstore = defineStore('players', {
         }
         console.log('total fetched:', this.allPlayers.length)
         localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
-      }catch(error){
+      } catch (error) {
         console.log('error: ' + error)
       }
     },
