@@ -1,8 +1,9 @@
 <template>
     <div class="w-50 h-100 bg-gray-200 rounded-2xl mr-10">
         <img :src=props.img referrerpolicy="no-referrer" />
-        <p>{{ props.name }}</p>
-        <p>{{ props.overall }}</p>
+        <p>Name: {{ props.name }}</p>
+        <p>Overall: {{ props.overall }}</p>
+        <p>Positions: {{ props.pos }}</p>
     </div>
 </template>
 
@@ -11,6 +12,7 @@ const props = defineProps({
     name: { type: String },
     img: { type: String },
     overall: { type: Number },
+    pos: {type: Array, String}
 })
 
 </script>

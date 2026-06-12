@@ -1,15 +1,19 @@
 <template>
-  <div class="flex flex-row">
+  <div class="bg-teal-200 w-screen h-screen item-center justify-center flex flex-col">
     <card v-if="current"
       class="w-50 h-100 bg-gray-200 rounded-2xl mr-10"
       :name="`${current.name}`"
       :img="`${current.playerImage}`"
       :overall="current.overall"
+      :pos="current.positions.toString()"
     ></card>
+    <button v-if="store.allPlayerCount != 643">Loading...</button>
+    <button v-if="store.allPlayerCount === 643" class="w-1/2 bg-red-400 hover:bg-red-500 text-white text-1xl font-bold rounded-2xl text-center transition duration-200 shadow-lg" @click="randomNumber">Roll</button>
+    <button v-if="rolled" @click="keep">Keep?</button>
+    <RouterLink to="/menu" class="p-5">Back To Menu</RouterLink>
+    
   </div>
-  <button v-if="store.allPlayerCount != 643">Loading...</button>
-  <button v-if="store.allPlayerCount === 643" @click="randomNumber">Roll</button>
-  <button v-if="rolled" @click="keep">Keep?</button>
+  
 </template>
 
 <script setup>
