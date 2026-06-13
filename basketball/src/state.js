@@ -2,7 +2,9 @@ import { defineStore } from 'pinia'
 
 export const usePlayerstore = defineStore('players', {
   state: () => ({
-    allPlayers: [],
+    allPlayers: {
+    
+    },
     team1: [null, null, null, null, null],
     team2: [null, null, null, null, null],
     team3: [null, null, null, null, null],
@@ -17,13 +19,6 @@ export const usePlayerstore = defineStore('players', {
   getters: {
     returnTeams: (state) =>{
       return state.team1
-    },
-    hasPosition: (pos, team) =>{
-      this[team].forEach(player => {
-        if(player.positions.includes(pos)){
-          return true
-        }
-      });
     },
     allPlayerCount: (state) => {
       return state.allPlayers.length
@@ -43,11 +38,11 @@ export const usePlayerstore = defineStore('players', {
         console.log(error)
       }
     },
-    async getPlayer(slug, pos) {
-      if (slug && !pos) {
+    async getPlayer(slug, id) {
+      if (slug && !id) {
         return await this.call(`players/slug/${slug}`)
-      } else if (!slug && pos) {
-        return this.allPlayers[pos]
+      } else if (!slug && id) {
+        return this.allPlayers[id]
       }
     },
     async getAllPlayers() {

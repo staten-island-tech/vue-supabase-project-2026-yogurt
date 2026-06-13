@@ -25,6 +25,12 @@ const router = createRouter({
       component: roll,
       meta: { requiresAuth: true }
     },
+    {
+      path: '/play',
+      name: 'play',
+      component: play,
+      meta:{ requiresAuth: true}
+    }
   ],
 })
 
