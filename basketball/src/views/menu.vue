@@ -7,11 +7,6 @@
         >Play</RouterLink
       >
       <RouterLink
-        to="/team"
-        class="bg-red-400 hover:bg-red-500 text-white text-3xl font-bold py-6 rounded-2xl text-center transition duration-200 shadow-lg"
-        >Choose Team</RouterLink
-      >
-      <RouterLink
         to="/roll"
         class="bg-red-400 hover:bg-red-500 text-white text-3xl font-bold py-6 rounded-2xl text-center transition duration-200 shadow-lg"
         >Roll Players</RouterLink
@@ -26,17 +21,11 @@
 <script setup>
 import router from '@/router';
 import { supabase } from '@/supabase';
-import { usePlayerstore } from '@/state'
-const store = usePlayerstore()
-
-
 
 async function logout(){
   await supabase.auth.signOut()
   router.push({ name: login })
 }
-
-
 </script>
 
 <style scoped></style>

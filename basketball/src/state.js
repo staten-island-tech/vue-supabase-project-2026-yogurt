@@ -3,13 +3,27 @@ import { defineStore } from 'pinia'
 export const usePlayerstore = defineStore('players', {
   state: () => ({
     allPlayers: [],
-    team1: [],
-    team2: [],
-    team3: [],
+    team1: [null, null, null, null, null],
+    team2: [null, null, null, null, null],
+    team3: [null, null, null, null, null],
+    positions: {
+      "PG": 0,
+      "SG": 1, 
+      "SF": 2,
+      "PF": 3,
+      "C": 4
+    }
   }),
   getters: {
     returnTeams: (state) =>{
       return state.team1
+    },
+    hasPosition: (pos, team) =>{
+      this[team].forEach(player => {
+        if(player.positions.includes(pos)){
+          return true
+        }
+      });
     },
     allPlayerCount: (state) => {
       return state.allPlayers.length
@@ -66,23 +80,11 @@ export const usePlayerstore = defineStore('players', {
         console.log('error: ' + error)
       }
     },
-    addPlayer(p, team) {
-      if (team && this[team].length < 5) {
-        try {
-          this[team].push(p)
-        } catch (error) {
-          console.log(error)
-        }
-      }else{
-        console.log(Number.isInteger(this[team].length))
-      }
+    addPlayer(p, team, pos) {
+      const posits = ["PG", "SG", "SF", "PF", "C" ]
+      const playerPos = posits[pos]
+      console.log(pos, playerPos)
+      this[team].splice(pos, 1, p)
     },
-    hasPositon(pos, team){
-      if(pos.isArray()){
-        pos.forEach(p => {
-          console.log("yogurt")
-        });
-      }
-    }}, 
-  },
-)
+  }, 
+})
