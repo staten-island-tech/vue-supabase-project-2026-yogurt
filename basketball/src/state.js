@@ -145,6 +145,7 @@ export const usePlayerstore = defineStore('players', {
 
     async loadUserData() {
       const { data: { user } } = await supabase.auth.getUser()
+      if(!user) return
 
       const { data: profile } = await supabase
         .from('profiles')

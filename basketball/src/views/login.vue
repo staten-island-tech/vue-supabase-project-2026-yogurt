@@ -3,8 +3,6 @@
       <div class="w-250 h-175 bg-sky-200 p-15 rounded-4xl shadow-xl flex overflow-hidden">
         <div class="w-1/2">
           <p class="text-5xl mb-15">Welcome Back</p>
-          <p class="text-2xl font-bold text-slate-900 mb-3">Username</p>
-          <input v-model="name" placeholder="  Type your Username" class="w-117 rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"></input>
           <p class="text-2xl font-bold text-slate-900 mb-3">Email Address</p>
           <input v-model="user" placeholder="  Type your email" class="w-117 rounded-xl border border-slate-200 bg-white px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 mb-4"></input>
           <p class="text-2xl font-bold text-slate-900 mb-3">Password</p>
@@ -29,7 +27,6 @@ const router = useRouter()
 
 const user = ref("") 
 const key = ref("")
-const name = ref("")
 async function upsertProfile() {
   const { data: userData, error: userError } = await supabase.auth.getUser()
   if (userError) throw userError
@@ -40,7 +37,6 @@ async function upsertProfile() {
       {
         id: userData.user.id,
         email: userData.user.email,
-        name: name.value || null,
       },
       { onConflict: 'id' }
     )
@@ -58,20 +54,14 @@ async function login() {
     return
   }else{
     console.log("User logged in successfully")
+    await upsertProfile()
     router.push({ name: 'menu' })
   }
-
-  await upsertProfile()
 }
 async function signUp() {
   const { error } = await supabase.auth.signUp({
     email: user.value,
     password: key.value,
-    options: {
-      data: {
-        name: name.value || null,
-      },
-    },
   })
 
   if (error) {
@@ -79,7 +69,8 @@ async function signUp() {
     return
   }else{
     console.log("User signed up successfully")
-    router.push({ name: menu })
+    await upsertProfile()
+    router.push({ name: 'menu' })
   }
 }
 </script>
