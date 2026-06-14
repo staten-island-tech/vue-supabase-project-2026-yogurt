@@ -17,7 +17,8 @@
       <button 
         v-if="store.allPlayerCount === 643" 
         class="w-full max-w-xs cursor-pointer bg-red-400 hover:bg-red-500 text-white text-lg font-bold py-4 rounded-2xl text-center transition duration-200 shadow-lg"
-        @click="randomNumber">Roll</button>
+        :disabled="cooldown || store.dimes < 10"
+        @click="randomNumber">Roll - 10 Dimes</button>
 
       <div v-if="rolled" class="flex gap-2 w-full max-w-xs">
         <button 
@@ -37,7 +38,9 @@
           v-for="pos in current.positions" :key="pos"
           @click="keep(pos)">Choose: {{ pos }}</button>
       </template>
-
+      <button 
+          class="w-full max-w-xs cursor-pointer bg-teal-400 hover:bg-teal-500 text-white text-lg font-bold py-3 rounded-2xl text-center transition duration-200 shadow-lg""
+          @click="store.saveUserData()">Save</button>
       <RouterLink 
         to="/menu" 
         class="text-teal-700 hover:text-teal-900 font-bold transition duration-200">← Back To Menu</RouterLink>
@@ -52,7 +55,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import card from '@/components/card.vue'
 import teamslots from '@/components/teamslots.vue'
 import { usePlayerstore } from '@/state'
@@ -64,11 +67,12 @@ const replace = ref(null)
 const cooldown = ref(false)
 
 async function randomNumber() {
-  if(cooldown.value) return
+  if(cooldown.value || store.dimes < 10) return
   cooldown.value = true
   rolled.value = true
   const id = Math.floor(Math.random() * store.allPlayerCount)
   current.value = await store.getPlayer(null, id)
+  store.dimes -= 10
   console.log(current.value)
 }
 
@@ -81,7 +85,7 @@ function keep(pos){
 
 setInterval(()=>{
   cooldown.value = false
-}, 2000)
+}, 1100)
 </script>
 
 <style scoped></style>

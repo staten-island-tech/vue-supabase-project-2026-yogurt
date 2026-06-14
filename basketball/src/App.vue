@@ -5,7 +5,14 @@ const store = usePlayerstore()
 
 onMounted(async () => {
   await store.getAllPlayers()
+  await store.loadUserData()
 })
+
+setInterval(()=>{
+  if(store.dimes < 100){
+    store.dimes += 5
+  }
+}, 1000)
 </script>
 
 <template>

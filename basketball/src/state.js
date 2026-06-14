@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { supabase } from './supabase'
 
 export const usePlayerstore = defineStore('players', {
   state: () => ({
@@ -13,7 +14,8 @@ export const usePlayerstore = defineStore('players', {
     team1: [null, null, null, null, null],
     team2: [null, null, null, null, null],
     team3: [null, null, null, null, null],
-    randomteam: [null, null, null, null, null]
+    randomteam: [null, null, null, null, null],
+    dimes: 500
   }),
   getters: {
     returnTeams: (state) =>{
@@ -104,5 +106,75 @@ export const usePlayerstore = defineStore('players', {
     addPlayer(p, team, pos) {
       this[team].splice(this.allPlayers[pos].slot, 1, p)
     },
+    async saveUserData() {
+      const { data: { user } } = await supabase.auth.getUser()
+
+      await supabase
+        .from('profiles')
+        .update({ dimes: this.dimes })
+        .eq('id', user.id)
+
+      const teams = { team1: this.team1, team2: this.team2, team3: this.team3 }
+
+      for (const [teamName, players] of Object.entries(teams)) {
+        const { data: teamData } = await supabase
+          .from('user_teams')
+          .upsert({ user_id: user.id, team_name: teamName }, { onConflict: 'user_id, team_name' })
+          .select()
+          .single()
+
+        await supabase
+          .from('team_players')
+          .delete()
+          .eq('user_team_id', teamData.id)
+
+        const rows = players
+          .map((p, index) => {
+            if(p){
+              return { user_team_id: teamData.id, player_slug: p.slug, slot: index }
+            }
+            return null
+          })
+          .filter(p => p !== null)
+
+        if (rows.length > 0) {
+          await supabase.from('team_players').insert(rows)
+        }
+      }
+    },
+
+    async loadUserData() {
+      const { data: { user } } = await supabase.auth.getUser()
+
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('dimes')
+        .eq('id', user.id)
+        .single()
+      
+      this.dimes = profile.dimes
+
+      const { data: teams } = await supabase
+        .from('user_teams')
+        .select('id, team_name')
+        .eq('user_id', user.id)
+
+      for (const team of teams) {
+        const { data: teamPlayers } = await supabase
+          .from('team_players')
+          .select('player_slug')
+          .eq('user_team_id', team.id)
+
+        const players = [null, null, null, null, null]
+        for (const { player_slug, slot } of teamPlayers) {
+          const player = this.rawPlayers.find(p => p.slug === player_slug)
+          if (player) {
+            players[slot] = player
+          }
+        }
+
+        this[team.team_name] = players
+      }
+    }
   }, 
 })
