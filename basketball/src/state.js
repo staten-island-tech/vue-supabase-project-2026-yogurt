@@ -2,26 +2,24 @@ import { defineStore } from 'pinia'
 
 export const usePlayerstore = defineStore('players', {
   state: () => ({
+    rawPlayers: [],
     allPlayers: {
-    
+    "PG": { players: [], slot: 0},
+    "SG": { players: [], slot: 1},
+    "SF": { players: [], slot: 2},
+    "PF": { players: [], slot: 3},
+    "C": { players: [], slot: 4},
     },
     team1: [null, null, null, null, null],
     team2: [null, null, null, null, null],
     team3: [null, null, null, null, null],
-    positions: {
-      "PG": 0,
-      "SG": 1, 
-      "SF": 2,
-      "PF": 3,
-      "C": 4
-    }
   }),
   getters: {
     returnTeams: (state) =>{
       return state.team1
     },
     allPlayerCount: (state) => {
-      return state.allPlayers.length
+      return state.rawPlayers.length
     },
   },
   actions: {
@@ -42,14 +40,16 @@ export const usePlayerstore = defineStore('players', {
       if (slug && !id) {
         return await this.call(`players/slug/${slug}`)
       } else if (!slug && id) {
-        return this.allPlayers[id]
+        return this.rawPlayers[id]
       }
     },
     async getAllPlayers() {
       let cached = localStorage.getItem('allPlayers')
+      let rawCached = localStorage.getItem('rawPlayers')
 
-      if (this.allPlayers.length > 0 || cached) {
+      if (cached && rawCached) {
         this.allPlayers = JSON.parse(cached)
+        this.rawPlayers = JSON.parse(rawCached)
         return
       }
       let cursor = null
@@ -63,23 +63,29 @@ export const usePlayerstore = defineStore('players', {
           } else {
             endpoint = 'players'
           }
+          console.log("hi")
           const data = await this.call(endpoint)
+          this.rawPlayers.push(...data.data)
 
-          this.allPlayers = [...this.allPlayers, ...data.data]
           hasMore = data.meta.pagination.hasMore
           cursor = data.meta.pagination.nextCursor
         }
-        console.log('total fetched:', this.allPlayers.length)
+        this.rawPlayers.forEach(p =>{
+          p.positions.forEach(pos =>{
+            if(this.allPlayers[pos]){
+              this.allPlayers[pos].players.push(p)
+            }
+          })
+        })
+        console.log(this.allPlayers)
         localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
+        localStorage.setItem('rawPlayers', JSON.stringify(this.rawPlayers))
       } catch (error) {
         console.log('error: ' + error)
       }
     },
     addPlayer(p, team, pos) {
-      const posits = ["PG", "SG", "SF", "PF", "C" ]
-      const playerPos = posits[pos]
-      console.log(pos, playerPos)
-      this[team].splice(pos, 1, p)
+      this[team].splice(this.allPlayers[pos].slot, 1, p)
     },
   }, 
 })

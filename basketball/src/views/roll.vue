@@ -60,22 +60,21 @@ const store = usePlayerstore()
 
 onMounted(async ()=>{
   await store.getAllPlayers()
+  console.log(store.allPlayerCount)
 })
 const current = ref('')
 const rolled = ref(false)
 const replace = ref(null)
 
 async function randomNumber() {
-  if(store.allPlayerCount === 643){
-    rolled.value = true
-    const id = Math.floor(Math.random() * store.allPlayerCount)
-    current.value = await store.getPlayer(null, id)
-    console.log(current.value)
-  }
+  rolled.value = true
+  const id = Math.floor(Math.random() * store.allPlayerCount)
+  current.value = await store.getPlayer(null, id)
+  console.log(current.value)
 }
 
 function keep(pos){
-  store.addPlayer(current.value, replace.value, store.positions[pos])
+  store.addPlayer(current.value, replace.value, pos)
   replace.value = ''
   rolled.value = false
   console.log(store.returnTeams)
