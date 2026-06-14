@@ -62,6 +62,8 @@ onMounted(async ()=>{
   await store.getAllPlayers()
   console.log(store.allPlayerCount)
 })
+
+console.log()
 const current = ref('')
 const rolled = ref(false)
 const replace = ref(null)

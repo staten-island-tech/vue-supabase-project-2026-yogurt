@@ -55,6 +55,7 @@ export const usePlayerstore = defineStore('players', {
       let cursor = null
       let hasMore = true
       let endpoint = ''
+      let raw = []
 
       try {
         while (hasMore) {
@@ -65,20 +66,21 @@ export const usePlayerstore = defineStore('players', {
           }
           console.log("hi")
           const data = await this.call(endpoint)
-          this.rawPlayers.push(...data.data)
+          raw.push(...data.data)
 
           hasMore = data.meta.pagination.hasMore
           cursor = data.meta.pagination.nextCursor
         }
-        this.rawPlayers.forEach(p =>{
-          p.positions.forEach(pos =>{
-            if(this.allPlayers[pos]){
-              this.allPlayers[pos].players.push(p)
-            }
-          })
-        })
+        // raw.forEach(p =>{
+        //   p.positions.forEach(pos =>{
+        //     if(this.allPlayers[pos]){
+        //       this.allPlayers[pos].players.push(p)
+        //     }
+        //   })
+        // })
         console.log(this.allPlayers)
-        localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
+        this.rawPlayers = raw
+        // localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
         localStorage.setItem('rawPlayers', JSON.stringify(this.rawPlayers))
       } catch (error) {
         console.log('error: ' + error)
