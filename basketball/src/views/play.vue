@@ -83,7 +83,6 @@ function getOverall(team){
 }
 
 function winner(){
-  console.log(getOverall(selected.value), getOverall('randomteam'))
   const diff = getOverall(selected.value) - getOverall('randomteam')
   const prob = 1 / (1 + Math.pow(10, -diff / 10))
   if(prob > Math.random()){

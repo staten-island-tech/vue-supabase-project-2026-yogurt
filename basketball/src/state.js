@@ -96,7 +96,6 @@ export const usePlayerstore = defineStore('players', {
           })
         })
         this.allPlayers = temp
-        console.log(this.allPlayers)
         this.rawPlayers = raw
         localStorage.setItem('rawPlayers', JSON.stringify(this.rawPlayers))
       } catch (error) {

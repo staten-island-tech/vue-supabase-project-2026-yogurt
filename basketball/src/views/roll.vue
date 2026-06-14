@@ -73,14 +73,12 @@ async function randomNumber() {
   const id = Math.floor(Math.random() * store.allPlayerCount)
   current.value = await store.getPlayer(null, id)
   store.dimes -= 10
-  console.log(current.value)
 }
 
 function keep(pos){
   store.addPlayer(current.value, replace.value, pos)
   replace.value = ''
   rolled.value = false
-  console.log(store.returnTeams)
 } 
 
 setInterval(()=>{
