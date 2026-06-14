@@ -26,12 +26,6 @@ import { supabase } from '@/supabase';
 import { onMounted } from 'vue';
 const store = usePlayerstore()
 
-onMounted(()=>{
-setTimeout(async () => {
-    await store.getAllPlayers()
-    console.log(store.allPlayerCount)
-  }, 0)})
-
 async function logout(){
   await supabase.auth.signOut()
   router.push({ name: login })

@@ -44,11 +44,10 @@ export const usePlayerstore = defineStore('players', {
       }
     },
     async getAllPlayers() {
-      let cached = localStorage.getItem('allPlayers')
       let rawCached = localStorage.getItem('rawPlayers')
+      console.log(rawCached)
 
-      if (cached && rawCached) {
-        this.allPlayers = JSON.parse(cached)
+      if (rawCached) {
         this.rawPlayers = JSON.parse(rawCached)
         return
       }
@@ -71,16 +70,24 @@ export const usePlayerstore = defineStore('players', {
           hasMore = data.meta.pagination.hasMore
           cursor = data.meta.pagination.nextCursor
         }
-        // raw.forEach(p =>{
-        //   p.positions.forEach(pos =>{
-        //     if(this.allPlayers[pos]){
-        //       this.allPlayers[pos].players.push(p)
-        //     }
-        //   })
-        // })
+        const temp = {
+          "PG": { players: [], slot: 0},
+          "SG": { players: [], slot: 1},
+          "SF": { players: [], slot: 2},
+          "PF": { players: [], slot: 3},
+          "C": { players: [], slot: 4},
+        }
+        raw.forEach(p =>{
+          p.positions.forEach(pos =>{
+            if(temp[pos]){
+              console.log("giddy")
+              temp[pos].players.push(p)
+            }
+          })
+        })
+        this.allPlayers = temp
         console.log(this.allPlayers)
         this.rawPlayers = raw
-        // localStorage.setItem('allPlayers', JSON.stringify(this.allPlayers))
         localStorage.setItem('rawPlayers', JSON.stringify(this.rawPlayers))
       } catch (error) {
         console.log('error: ' + error)
