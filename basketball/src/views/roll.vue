@@ -58,17 +58,14 @@ import teamslots from '@/components/teamslots.vue'
 import { usePlayerstore } from '@/state'
 const store = usePlayerstore()
 
-onMounted(async ()=>{
-  await store.getAllPlayers()
-  console.log(store.allPlayerCount)
-})
-
-console.log()
 const current = ref('')
 const rolled = ref(false)
 const replace = ref(null)
+const cooldown = ref(false)
 
 async function randomNumber() {
+  if(cooldown.value) return
+  cooldown.value = true
   rolled.value = true
   const id = Math.floor(Math.random() * store.allPlayerCount)
   current.value = await store.getPlayer(null, id)
@@ -81,6 +78,10 @@ function keep(pos){
   rolled.value = false
   console.log(store.returnTeams)
 } 
+
+setInterval(()=>{
+  cooldown.value = false
+}, 2000)
 </script>
 
 <style scoped></style>

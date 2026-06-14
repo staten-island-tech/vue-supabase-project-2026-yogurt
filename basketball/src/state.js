@@ -13,6 +13,7 @@ export const usePlayerstore = defineStore('players', {
     team1: [null, null, null, null, null],
     team2: [null, null, null, null, null],
     team3: [null, null, null, null, null],
+    randomteam: [null, null, null, null, null]
   }),
   getters: {
     returnTeams: (state) =>{
@@ -45,10 +46,25 @@ export const usePlayerstore = defineStore('players', {
     },
     async getAllPlayers() {
       let rawCached = localStorage.getItem('rawPlayers')
-      console.log(rawCached)
+      
+      const temp = {
+          "PG": { players: [], slot: 0},
+          "SG": { players: [], slot: 1},
+          "SF": { players: [], slot: 2},
+          "PF": { players: [], slot: 3},
+          "C": { players: [], slot: 4},
+        }
 
       if (rawCached) {
         this.rawPlayers = JSON.parse(rawCached)
+        this.rawPlayers.forEach(p =>{
+          p.positions.forEach(pos =>{
+            if(temp[pos]){
+              temp[pos].players.push(p)
+            }
+          })
+        })
+        this.allPlayers = temp
         return
       }
       let cursor = null
@@ -63,24 +79,16 @@ export const usePlayerstore = defineStore('players', {
           } else {
             endpoint = 'players'
           }
-          console.log("hi")
           const data = await this.call(endpoint)
           raw.push(...data.data)
 
           hasMore = data.meta.pagination.hasMore
           cursor = data.meta.pagination.nextCursor
         }
-        const temp = {
-          "PG": { players: [], slot: 0},
-          "SG": { players: [], slot: 1},
-          "SF": { players: [], slot: 2},
-          "PF": { players: [], slot: 3},
-          "C": { players: [], slot: 4},
-        }
+        
         raw.forEach(p =>{
           p.positions.forEach(pos =>{
             if(temp[pos]){
-              console.log("giddy")
               temp[pos].players.push(p)
             }
           })
