@@ -121,8 +121,8 @@ export const usePlayerstore = defineStore('players', {
           .upsert({ user_id: user.id, team_name: teamName }, { onConflict: 'user_id, team_name' })
           .select()
           .single()
-        if(TeamError) throw TeamError
-
+        if(TeamError) console.log("TeamError: ", TeamError)
+        
         const {error: playerError} = await supabase
           .from('team_players')
           .delete()
