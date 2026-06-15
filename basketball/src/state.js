@@ -154,16 +154,18 @@ export const usePlayerstore = defineStore('players', {
       
       this.dimes = profile.dimes
 
-      const { data: teams } = await supabase
+      const { data: teams, error: teamsError } = await supabase
         .from('user_teams')
         .select('id, team_name')
         .eq('user_id', user.id)
+      if(teamsError) throw teamsError 
 
       for (const team of teams) {
-        const { data: teamPlayers } = await supabase
+        const { data: teamPlayers, error: error } = await supabase
           .from('team_players')
-          .select('player_slug')
+          .select('player_slug, slot')
           .eq('user_team_id', team.id)
+        if(error) throw error
 
         const players = [null, null, null, null, null]
         for (const { player_slug, slot } of teamPlayers) {
