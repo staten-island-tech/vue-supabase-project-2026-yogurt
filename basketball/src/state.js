@@ -116,16 +116,18 @@ export const usePlayerstore = defineStore('players', {
       const teams = { team1: this.team1, team2: this.team2, team3: this.team3 }
 
       for (const [teamName, players] of Object.entries(teams)) {
-        const { data: teamData } = await supabase
+        const { data: teamData, error: TeamError } = await supabase
           .from('user_teams')
           .upsert({ user_id: user.id, team_name: teamName }, { onConflict: 'user_id, team_name' })
           .select()
           .single()
+        if(TeamError) throw TeamError
 
-        await supabase
+        const {error: playerError} = await supabase
           .from('team_players')
           .delete()
           .eq('user_team_id', teamData.id)
+        if(playerError) throw playerError
 
         const rows = players
           .map((p, index) => {
